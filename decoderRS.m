@@ -8,22 +8,23 @@ function msg=decoderRS(A,B,m,k)
     % output
     % msg: an array of bits decoded
 
-    n=2^m-1;
-    l=length(A);
+    n=2^m-1; % codeword length
+    l=length(A); % length of the input data
     
-    % convert the array of bits into an array of integers
+    % convert the array of bits into an array of integers by each m bits
     AA=[];
     for i=1:l/m
         T=A((i-1)*m+1:i*m);
         AA=[AA,bi2de(fliplr(T))];
     end
     
+    % convert a 1D array into a 2D array with n-elements each line
     for i=1:length(AA)
-        C(floor((i-1)/n)+1,mod(i-1,n)+1)=AA(i); % convert a 1D array into a 2D array
+        C(floor((i-1)/n)+1,mod(i-1,n)+1)=AA(i); 
     end
     
+    % decoder Reed-solomon
     C=gf(C,m);
-    
     dec=rsdec(C,n,k);
     dec=dec.x;
     

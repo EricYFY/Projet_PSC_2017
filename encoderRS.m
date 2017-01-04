@@ -14,13 +14,14 @@ function output=encoderRS(A,B,m,k)
     l=length(C); % the length of data for encoding
     n=2^m-1; % codeword length
     
+    % convert a 1D array into a 2D array with k-elements each line
     for i=1:l
-        t(floor((i-1)/k)+1,mod(i-1,k)+1)=C(i); % convert a 1D array into a 2D array
+        t(floor((i-1)/k)+1,mod(i-1,k)+1)=C(i);
     end
     
-    msg=gf(t,m); % convert an array into a Golois Field for the function rsenc
-    
-    enc=rsenc(msg,n,k); % encoder Reed-Solomon
+    % encoder Reed-Solomon
+    msg=gf(t,m);
+    enc=rsenc(msg,n,k); 
     
     % convert a Golois Field into an array of integers
     [a,b]=size(enc);
